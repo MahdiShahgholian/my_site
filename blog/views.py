@@ -1,7 +1,11 @@
 from django.shortcuts import render
+from .models import Post
+
 
 def blog_home_view(request):
-    return render(request, 'blog/blog-home.html')
+    posts = Post.objects.filter(status=True)
+    context = {'posts': posts}
+    return render(request, 'blog/blog-home.html', context)
 
 def blog_single_view(request):
     return render(request, 'blog/blog-single.html')
