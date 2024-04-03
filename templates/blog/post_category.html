@@ -1,0 +1,16 @@
+<div class="single-sidebar-widget post-category-widget">
+    <h4 class="category-title">Post Catgories</h4>
+
+    {% for category, count in category_count.items %}
+
+    <ul class="cat-list">
+      <li>
+        <a href="{% url 'blog:category' cat_name=category.name %}" class="d-flex justify-content-between">
+          <p>{{ category.name }}</p>
+          <p>{{ count }}</p>
+        </a>
+      </li>
+      {% endfor %}
+      
+    </ul>
+  </div>

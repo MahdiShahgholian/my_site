@@ -48,6 +48,12 @@ $black			: #222;
 /* =================================== */
 /*  Basic Style 
 /* =================================== */
+
+.thumb img {
+  width: 100px;
+  height: 100px;
+}
+
 ::-moz-selection {
   /* Code for Firefox */
   background-color: #f8b600;
