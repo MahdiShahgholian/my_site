@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, EmptyPage
 from .models import Post
 
 def blog_home_view(request, cat_name=None, author_name=None):
@@ -7,8 +8,21 @@ def blog_home_view(request, cat_name=None, author_name=None):
         posts = posts.filter(category__name=cat_name)
     if author_name:
         posts = posts.filter(author__username=author_name)
+        
+    posts = Paginator(posts, 3)  # Show 3 contacts per page.
+
+    try:
+        page_number = request.GET.get("page")
+        posts = posts.get_page(page_number)
+    except EmptyPage:
+        posts = posts.page(1)
+    except EmptyPage:
+        posts = posts.page(posts.num_pages)
+    
+    
     context = {'posts': posts}
     return render(request, 'blog/blog-home.html', context)
+
 
 
 def blog_single_view(request, pid):
@@ -43,3 +57,18 @@ def blog_single_view(request, pid):
     }
 
     return render(request, 'blog/blog-single.html', context)
+
+
+def search_view(request):
+    # فیلتر کردن تمام پست‌های فعال
+    posts = Post.objects.filter(status=True)
+    
+    if request.method == 'GET':
+        # درخواست جستجو از روی محتوای پست‌ها
+        search_query = request.GET.get('s')  # دریافت متن جستجو شده، اگر وجود دارد
+        if search_query:
+            # فیلتر کردن پست‌ها بر اساس متن جستجوی وارد شده
+            posts = posts.filter(content__contains=search_query)
+    
+    context = {'posts': posts}
+    return render(request, 'blog/blog-home.html', context)
