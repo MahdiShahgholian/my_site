@@ -2,14 +2,19 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, EmptyPage
 from .models import Post
 
-def blog_home_view(request, cat_name=None, author_name=None):
+def blog_home_view(request, **kwargs):
+    
     posts = Post.objects.filter(status=True)
-    if cat_name:
-        posts = posts.filter(category__name=cat_name)
-    if author_name:
-        posts = posts.filter(author__username=author_name)
+    if kwargs.get('cat_name'):
+        posts = posts.filter(category__name=kwargs['cat_name'])
+    if kwargs.get('author_name'):
+        posts = posts.filter(author__username=kwargs['author_name'])
+    if kwargs.get('tag_name') :
+        posts = posts.filter(tags__name__in=[kwargs['tag_name']])
         
     posts = Paginator(posts, 3)  # Show 3 contacts per page.
+    
+    
 
     try:
         page_number = request.GET.get("page")
@@ -19,8 +24,9 @@ def blog_home_view(request, cat_name=None, author_name=None):
     except EmptyPage:
         posts = posts.page(posts.num_pages)
     
+    tags = Post.tags.all()
     
-    context = {'posts': posts}
+    context = {'posts': posts , 'tags': tags}
     return render(request, 'blog/blog-home.html', context)
 
 

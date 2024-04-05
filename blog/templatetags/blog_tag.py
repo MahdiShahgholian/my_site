@@ -19,7 +19,7 @@ def func():
 
 @register.inclusion_tag("blog/last_post.html")
 def last_post(arg = 3):
-    posts = Post.objects.filter(status=True).order_by('publish_date')[:arg]
+    posts = Post.objects.filter(status=True)[:arg]
     return {'posts': posts}
 
 @register.inclusion_tag("blog/post_category.html")

@@ -39,8 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'website.apps.WebsiteConfig',
     'django.contrib.humanize',
+    'django_extensions',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
+    'debug_toolbar',
+    'robots',
+    'taggit',
+    'django_summernote',
     'blog'
 ]
+
+SITE_ID = 2
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -50,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'my_site.urls'
@@ -71,6 +81,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'my_site.wsgi.application'
+
+#sumernoteconfig
+SUMMERNOTE_THEME = 'bs4'
 
 
 # Database
@@ -134,3 +147,11 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+INTERNAL_IPS = [
+    
+    "127.0.0.1",
+    
+]
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
