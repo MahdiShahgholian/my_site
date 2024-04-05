@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, EmptyPage
-from .models import Post
+from .models import Post, Comment
+from .forms import CommentForm
+from django.contrib import messages
 
 def blog_home_view(request, **kwargs):
     
@@ -14,8 +16,6 @@ def blog_home_view(request, **kwargs):
         
     posts = Paginator(posts, 3)  # Show 3 contacts per page.
     
-    
-
     try:
         page_number = request.GET.get("page")
         posts = posts.get_page(page_number)
@@ -26,6 +26,7 @@ def blog_home_view(request, **kwargs):
     
     tags = Post.tags.all()
     
+    
     context = {'posts': posts , 'tags': tags}
     return render(request, 'blog/blog-home.html', context)
 
@@ -35,13 +36,10 @@ def blog_single_view(request, pid):
     posts = Post.objects.filter(status=True)
     post = get_object_or_404(Post, id=pid, status=True)
 
-    # ایجاد لیست آیدی پست‌ها
     post_ids = [p.id for p in posts]
 
-    # پیدا کردن آیدی پست فعلی
     current_post_index = post_ids.index(int(pid))
 
-    # دریافت آیدی پست بعدی و پیشین
     next_post_index = current_post_index + 1
     prev_post_index = current_post_index - 1
 
@@ -56,10 +54,25 @@ def blog_single_view(request, pid):
         prev_post_id = post_ids[prev_post_index]
         prev_post = Post.objects.get(id=prev_post_id)
 
+    comments = Comment.objects.filter(post = post, approved = True)
+    
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Form submission successful')
+        else:
+            messages.error(request, 'Form submission successful')
+            
+    form = CommentForm()     
+    
     context = {
         'post': post,
-        'next_post': next_post,  # ارسال پست بعدی به قالب
-        'prev_post': prev_post   # ارسال پست قبلی به قالب
+        'next_post': next_post,  
+        'prev_post': prev_post,
+        'comments' : comments,
+        'form': form
+           
     }
 
     return render(request, 'blog/blog-single.html', context)

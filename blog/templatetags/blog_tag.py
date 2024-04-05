@@ -1,13 +1,13 @@
 
 from django import template
-from blog.models import Post, Category
+from blog.models import Post, Category, Comment
 
 register = template.Library()
 
 
-@register.simple_tag # run func with no arguments
-def current_time(format_string):
-    pass
+@register.simple_tag(name = 'comment_count') # run func with no arguments
+def function(pid):
+    return Comment.objects.filter(post = pid, approved = True).count()
 
 @register.filter # filter functions by format string
 def func():
