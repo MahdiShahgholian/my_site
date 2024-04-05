@@ -3352,6 +3352,16 @@ body.mobile-nav-active #mobile-nav-toggle {
   position: absolute;
 }
 
+.captcha-field {
+  background-color: #f5f5f5; /* Light background color */
+  border: 1px solid #ccc; /* Light border */
+  padding: 10px;
+  margin-bottom: 20px; /* Adjust as needed */
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Optional: Add a light shadow */
+}
+
+
 .top-category-widget-area .single-cat-widget .content-details h4 {
   color: #fff;
 }

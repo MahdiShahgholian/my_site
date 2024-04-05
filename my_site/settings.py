@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.1.100']
 # Application definition
 
 INSTALLED_APPS = [
+    'multi_captcha_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,10 +47,16 @@ INSTALLED_APPS = [
     'robots',
     'taggit',
     'django_summernote',
+    'captcha',
     'blog'
 ]
 
 SITE_ID = 2
+
+#captcha-admin
+MULTI_CAPTCHA_ADMIN = {
+    'engine': 'simple-captcha',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -82,7 +89,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'my_site.wsgi.application'
 
-#sumernoteconfig
+# sumernoteconfig
+
 SUMMERNOTE_THEME = 'bs4'
 
 
