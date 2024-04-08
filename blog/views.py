@@ -3,6 +3,8 @@ from django.core.paginator import Paginator, EmptyPage, EmptyPage
 from .models import Post, Comment
 from .forms import CommentForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 
 def blog_home_view(request, **kwargs):
     

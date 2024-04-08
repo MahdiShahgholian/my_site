@@ -39,12 +39,28 @@
           <div class="row align-items-center">
             <div class="col-lg-6 col-sm-6 col-6 header-top-left">
               <ul>
-                <li>
-                  <a href="#">Visit Us</a>
-                </li>
-                <li>
-                  <a href="#">Buy Tickets</a>
-                </li>
+                {% if user.is_authenticated %}
+                    <li>
+                      <a href="#" style="width: 90px; height: 40px; opacity: 1;"> Welcome, {{ user.get_username }}. Thanks for logging in.</a>
+                    </li>
+
+                    <li>
+                      <a href="{% url 'accounts:logout' %}" style="width: 90px; height: 40px; opacity: 1;"> Logout</a>
+                    </li>
+
+                {% else %}
+                    <li>
+                      
+                        <a href="{% url 'accounts:login' %}" style="width: 90px; height: 40px; opacity: 1;"> Login</a>
+                      
+                    </li>
+                    <li>
+                      
+                        <a href="{% url 'accounts:signup' %}" style="width: 90px; height: 40px; opacity: 1;"> Signup</a>
+                      
+                    </li>
+                {% endif %}
+                
               </ul>
             </div>
             <div class="col-lg-6 col-sm-6 col-6 header-top-right">
